@@ -103,6 +103,99 @@ paths:
         '500':
           description: Internal Server Error
 
+  # =============================================
+  # ENDPOINTS TRANSACTIONS (Phase 2 - nouveaux)
+  # =============================================
+
+  # --- Endpoint pour recuperer les comptes de l'utilisateur ---
+  /user/accounts:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Accounts Module
+      summary: Get all user accounts
+      description: Returns all bank accounts for the authenticated user
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Accounts retrieved successfully
+          schema:
+            $ref: '#/definitions/AccountsResponse'
+        '401':
+          description: Unauthorized - invalid or missing token
+        '500':
+          description: Internal Server Error
+
+  # --- Endpoint pour recuperer les transactions d'un compte ---
+  /user/accounts/{accountId}/transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Get all transactions for an account
+      description: Returns all transactions for a specific account for the current month
+      parameters:
+        - in: path
+          name: accountId
+          description: ID of the account
+          required: true
+          type: string
+        - in: query
+          name: month
+          description: Month to filter transactions (format YYYY-MM). Defaults to current month if not provided
+          required: false
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transactions retrieved successfully
+          schema:
+            $ref: '#/definitions/TransactionsResponse'
+        '401':
+          description: Unauthorized - invalid or missing token
+        '404':
+          description: Account not found
+        '500':
+          description: Internal Server Error
+
+  # --- Endpoint pour recuperer le detail d'une transaction ---
+  /user/accounts/{accountId}/transactions/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Get a specific transaction
+      description: Returns the details of a specific transaction
+      parameters:
+        - in: path
+          name: accountId
+          description: ID of the account
+          required: true
+          type: string
+        - in: path
+          name: transactionId
+          description: ID of the transaction
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction retrieved successfully
+          schema:
+            $ref: '#/definitions/TransactionDetailResponse'
+        '401':
+          description: Unauthorized - invalid or missing token
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -159,3 +252,112 @@ definitions:
     properties:
       userName:
         type: string
+
+  # =============================================
+  # DEFINITIONS TRANSACTIONS (nouvelles)
+  # =============================================
+
+  # --- Definition d'un compte bancaire ---
+  Account:
+    type: object
+    properties:
+      id:
+        type: string
+        description: account unique ID
+      title:
+        type: string
+        description: account title (ex. Argent Bank Checking x8349)
+      amount:
+        type: number
+        description: current account balance
+      description:
+        type: string
+        description: balance description (ex. Available Balance)
+
+  # --- Reponse contenant la liste des comptes ---
+  AccountsResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: array
+        items:
+          $ref: '#/definitions/Account'
+
+  # --- Definition d'une transaction (vue liste) ---
+  Transaction:
+    type: object
+    properties:
+      id:
+        type: string
+        description: transaction unique ID
+      date:
+        type: string
+        format: date
+        description: transaction date
+      description:
+        type: string
+        description: transaction description (ex. Golden Sun Bakery)
+      amount:
+        type: number
+        description: transaction amount
+      balance:
+        type: number
+        description: account balance after this transaction
+
+  # --- Definition d'une transaction (vue detail) ---
+  TransactionDetail:
+    type: object
+    properties:
+      id:
+        type: string
+        description: transaction unique ID
+      date:
+        type: string
+        format: date
+        description: transaction date
+      description:
+        type: string
+        description: transaction description (ex. Golden Sun Bakery)
+      amount:
+        type: number
+        description: transaction amount
+      balance:
+        type: number
+        description: account balance after this transaction
+      transactionType:
+        type: string
+        description: type of transaction (ex. Electronic)
+      category:
+        type: string
+        description: transaction category (ex. Food)
+      note:
+        type: string
+        description: user note on this transaction
+
+  # --- Reponse contenant la liste des transactions ---
+  TransactionsResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: array
+        items:
+          $ref: '#/definitions/Transaction'
+
+  # --- Reponse contenant le detail d'une transaction ---
+  TransactionDetailResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        $ref: '#/definitions/TransactionDetail'
