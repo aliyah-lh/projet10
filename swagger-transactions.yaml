@@ -196,6 +196,121 @@ paths:
         '500':
           description: Internal Server Error
 
+  # --- Endpoint pour modifier la categorie d'une transaction ---
+  /user/accounts/{accountId}/transactions/{transactionId}/category:
+    patch:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Update a transaction category
+      description: Add or modify the category of a specific transaction
+      parameters:
+        - in: path
+          name: accountId
+          description: ID of the account
+          required: true
+          type: string
+        - in: path
+          name: transactionId
+          description: ID of the transaction
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Category payload
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionCategory'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Category updated successfully
+          schema:
+            $ref: '#/definitions/TransactionDetailResponse'
+        '400':
+          description: Invalid Fields
+        '401':
+          description: Unauthorized - invalid or missing token
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+
+  # --- Endpoint pour modifier ou supprimer la note d'une transaction ---
+  /user/accounts/{accountId}/transactions/{transactionId}/note:
+    patch:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Update a transaction note
+      description: Add or modify the note of a specific transaction
+      parameters:
+        - in: path
+          name: accountId
+          description: ID of the account
+          required: true
+          type: string
+        - in: path
+          name: transactionId
+          description: ID of the transaction
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Note payload
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionNote'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Note updated successfully
+          schema:
+            $ref: '#/definitions/TransactionDetailResponse'
+        '400':
+          description: Invalid Fields
+        '401':
+          description: Unauthorized - invalid or missing token
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Delete a transaction note
+      description: Remove the note from a specific transaction
+      parameters:
+        - in: path
+          name: accountId
+          description: ID of the account
+          required: true
+          type: string
+        - in: path
+          name: transactionId
+          description: ID of the transaction
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Note deleted successfully
+          schema:
+            $ref: '#/definitions/TransactionDetailResponse'
+        '401':
+          description: Unauthorized - invalid or missing token
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -361,3 +476,19 @@ definitions:
         type: string
       body:
         $ref: '#/definitions/TransactionDetail'
+
+  # --- Payload pour modifier la categorie ---
+  TransactionCategory:
+    type: object
+    properties:
+      category:
+        type: string
+        description: new category for the transaction (ex. Food, Transport, Health)
+
+  # --- Payload pour modifier la note ---
+  TransactionNote:
+    type: object
+    properties:
+      note:
+        type: string
+        description: user note for the transaction
