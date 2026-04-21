@@ -2,14 +2,38 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/img/argentBankLogo.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Argent Bank - Online banking application. Manage your accounts, view transactions and edit your profile." />
     <title>Argent Bank</title>
-    <!-- Font Awesome pour les icônes (user, sign-out, etc.) -->
+
+    <!-- Preconnect pour charger Font Awesome plus vite -->
+    <link rel="preconnect" href="https://stackpath.bootstrapcdn.com" />
+
+    <!-- Font Awesome : chargé en asynchrone pour ne pas bloquer le rendu -->
     <link
-      rel="stylesheet"
+      rel="preload"
+      as="style"
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      />
+    </noscript>
+
+    <!-- Force font-display: swap sur Font Awesome pour afficher le texte tout de suite -->
+    <style>
+      @font-face {
+        font-family: 'FontAwesome';
+        font-display: swap;
+      }
+    </style>
+
+    <!-- Preload de l'image hero (LCP) pour un affichage plus rapide -->
+    <link rel="preload" as="image" href="/img/bank-tree.webp" fetchpriority="high" />
   </head>
   <body>
     <div id="root"></div>
