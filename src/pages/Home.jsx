@@ -9,21 +9,22 @@ import FeatureCard from '../components/FeatureCard'
 function Home() {
   // On définit les données des 3 avantages dans un tableau
   // Comme ça, on utilise .map() pour générer les 3 cartes automatiquement
+  // On utilise des images WebP (plus légères que PNG)
   const features = [
     {
-      icon: '/img/icon-chat.png',
+      icon: '/img/icon-chat.webp',
       title: 'You are our #1 priority',
       description:
         'Need to talk to a representative? You can get in touch through our 24/7 chat or through a phone call in less than 5 minutes.',
     },
     {
-      icon: '/img/icon-money.png',
+      icon: '/img/icon-money.webp',
       title: 'More savings means higher rates',
       description:
         'The more you save with us, the higher your interest rate will be!',
     },
     {
-      icon: '/img/icon-security.png',
+      icon: '/img/icon-security.webp',
       title: 'Security you can trust',
       description:
         'We use top of the line encryption to make sure your data and money is always safe.',

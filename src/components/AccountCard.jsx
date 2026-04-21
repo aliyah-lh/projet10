@@ -1,7 +1,7 @@
 // ============================================================
 // AccountCard.jsx - Carte "compte bancaire" réutilisable
-// Ce composant est utilisé plusieurs fois sur la page profil
-// pour afficher chaque compte de l'utilisateur
+// Composant utilisé plusieurs fois sur la page profil au lieu
+// de dupliquer le HTML (bonne pratique Green Code)
 //
 // Props :
 //   - title : nom du compte (ex: "Argent Bank Checking (x8349)")

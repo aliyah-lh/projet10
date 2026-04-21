@@ -1,6 +1,6 @@
 // ============================================================
 // Footer.jsx - Pied de page
-// Composant très simple, affiché en bas de chaque page
+// Composant simple, affiché en bas de chaque page
 // ============================================================
 
 function Footer() {
